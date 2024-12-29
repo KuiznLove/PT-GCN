@@ -46,11 +46,11 @@ eval_batch_size=1
 data_dir="../data/ASTE-V2/${dataset}"
 
 #${CUDA_IDS}
-CUDA_VISIBLE_DEVICES=${CUDA_IDS} python3 aste_train_prompt_ada.py \
+CUDA_VISIBLE_DEVICES=${CUDA_IDS} python3 aste_train_prompt.py \
   --gpus=1 \
   --precision=${precision} \
   --data_dir ${data_dir} \
-  --model_name_or_path '/yourModel/bert-base-uncased' \
+  --model_name_or_path 'bert-base-uncased' \
   --output_dir ../output/ASTE/${dataset}/ \
   --learning_rate ${learning_rate}e-5 \
   --train_batch_size ${batch_size} \
@@ -61,7 +61,7 @@ CUDA_VISIBLE_DEVICES=${CUDA_IDS} python3 aste_train_prompt_ada.py \
   --gradient_clip_val ${gradient_clip_val} \
   --weight_decay ${weight_decay} \
   --max_seq_length -1 \
-  --max_epochs 20 \
+  --max_epochs 15 \
   --cuda_ids ${CUDA_IDS} \
   --do_train \
   --table_encoder ${table_encoder} \

@@ -39,18 +39,18 @@ class BDTFModel(BertPreTrainedModel):
     def forward(self, input_ids, attention_mask, ids,
                 mask_position=None,table_labels_S=None, table_labels_E=None,
                 polarity_labels=None, pairs_true=None, domain_id=None):
-        seq = self.bert(input_ids, attention_mask)[0]
+        seq = self.bert(input_ids, attention_mask)[0] #[batch, l, dim] = [1, 59, 768]
 
         table_mask = torch.where(table_labels_S>=0, 1, 0)
         attention_mask = table_mask[:,1,:]
         mask_position = torch.where(mask_position >= 1, True, False)
         batch, l, dim = seq.shape
-        outputs_at_mask = torch.masked_select(seq, mask_position.unsqueeze(-1))
-        outputs_at_mask = outputs_at_mask.view(batch, -1, dim)
-        as1, as2, as3, ts1, ts2, ts3 = self.get_atten(outputs_at_mask, seq, attention_mask)
-        seq = seq * (attention_mask.unsqueeze(-1))
+        outputs_at_mask = torch.masked_select(seq, mask_position.unsqueeze(-1)) #[4608]不固定
+        outputs_at_mask = outputs_at_mask.view(batch, -1, dim) #[1, 6, 768]
+        as1, as2, as3, ts1, ts2, ts3 = self.get_atten(outputs_at_mask, seq, attention_mask) #[batch, l] = [1,59]
+        seq = seq * (attention_mask.unsqueeze(-1)) #[1, 59, 768]
 
-        table = self.table_encoder(seq)
+        table = self.table_encoder(seq) #[1, 59, 59, 768]
         table1 = self.gcn1(table, as1, ts1)
         table2 = self.gcn2(table, as2, ts2)
         table3 = self.gcn3(table, as3, ts3)

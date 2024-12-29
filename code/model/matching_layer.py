@@ -5,7 +5,7 @@ class MatchingLayer(nn.Module):
     def __init__(self, config):
         super().__init__()
         self.config = config
-        self.linear = nn.Linear(config.hidden_size, 4)
+        self.linear = nn.Linear(config.hidden_size*3, 4)
 
     def gene_pred(self, batch_size, S_preds, E_preds, pairs_true, S_probs, E_probs):
         all_pred = [[] for i in range(batch_size)]
@@ -65,11 +65,11 @@ class MatchingLayer(nn.Module):
             loss_input = torch.zeros([batch_size, 1, 2])
             loss_label = torch.zeros([batch_size, 1])-1
 
+        outputs['pair_loss'] = loss_func(loss_input.transpose(1, 2), loss_label.long())
 
-        pair_loss = loss_func(loss_input.transpose(1, 2), loss_label.long())
+        # outputs['pair_loss'] = F.softmax(pred_output, dim=2)
 
-        outputs['pair_loss'] = F.softmax(pred_output, dim=2)
-
+        pairs_logits = F.softmax(pred_output, dim=2)
         if pairs_logits.shape[1] == 0:
             outputs['pairs_preds'] = []
             return outputs

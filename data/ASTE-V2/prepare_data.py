@@ -32,7 +32,8 @@ def syn_matix(tokens, tgt_text, trainedTokenizer, label_pair, senti):
     return label_pair, mask_position
 
 
-tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+# tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+tokenizer = BertTokenizer.from_pretrained('D:/class9/bert-local/models--bert-base-uncased/snapshots/86b5e0934494bd15c9632b12f734a8a67f723594')
 
 for file_name in ['14lap', '14res', '15res', '16res']:
     dataset = {}
