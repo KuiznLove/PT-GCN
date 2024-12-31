@@ -38,7 +38,9 @@ class BDTFModel(BertPreTrainedModel):
 
     def forward(self, input_ids, attention_mask, ids,
                 mask_position=None,table_labels_S=None, table_labels_E=None,
-                polarity_labels=None, pairs_true=None, domain_id=None):
+                polarity_labels=None, pairs_true=None,
+                word_pair_position=None, word_pair_deprel=None, word_pair_pos=None, word_pair_synpost=None,
+                domain_id=None):
         seq = self.bert(input_ids, attention_mask)[0] #[batch, l, dim] = [1, 59, 768]
 
         table_mask = torch.where(table_labels_S>=0, 1, 0)
@@ -51,9 +53,9 @@ class BDTFModel(BertPreTrainedModel):
         seq = seq * (attention_mask.unsqueeze(-1)) #[1, 59, 768]
 
         table = self.table_encoder(seq) #[1, 59, 59, 768]
-        table1 = self.gcn1(table, as1, ts1)
-        table2 = self.gcn2(table, as2, ts2)
-        table3 = self.gcn3(table, as3, ts3)
+        table1 = self.gcn1(table, as1, ts1, word_pair_deprel)
+        table2 = self.gcn2(table, as2, ts2, word_pair_deprel)
+        table3 = self.gcn3(table, as3, ts3, word_pair_deprel)
         table1 = torch.cat([table1,table2,table3], dim=-1)
 
         output = self.inference(table1, attention_mask, table_labels_S, table_labels_E)

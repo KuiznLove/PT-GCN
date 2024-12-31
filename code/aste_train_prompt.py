@@ -6,6 +6,7 @@ import random
 import numpy as np
 
 import pytorch_lightning as pl
+from prepare_vocab import VocabHelp
 
 pl.seed_everything(42)
 

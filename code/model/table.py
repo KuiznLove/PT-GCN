@@ -2,6 +2,8 @@ import torch
 from torch import nn
 from .seq2mat import *
 from .tgcn.GAT import GAT
+from .tgcn.SyntaxGAT import SyntaxGAT
+from .tgcn.SyntaxGAT2 import SyntaxGAT2
 
 
 class TableEncoder(nn.Module):
@@ -28,9 +30,10 @@ class Ptgcn(nn.Module):
     def __init__(self, config):
         super().__init__()
 
-        self.gat = GAT()
+        # self.gat = GAT()
+        self.gat = SyntaxGAT2()
 
-    def forward(self, table, a_s, o_s):
-        table = self.gat(table, a_s, o_s)
+    def forward(self, table, a_s, o_s, adj_matrix):
+        table = self.gat(table, a_s, o_s, adj_matrix)
 
         return table
