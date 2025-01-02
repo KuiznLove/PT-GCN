@@ -1,0 +1,10 @@
+2024-12-31 12:31:55
+../data/ASTE-V2/14lap, lr=3e-05, seed=70, model_name_or_path=bert-base-uncased 5711
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.571127502634352, "pair_p": 0.6642156862745098, "pair_r": 0.5009242144177449}
+
+2024-12-31 13:06:59
+../data/ASTE-V2/14lap, lr=3e-05, seed=40, model_name_or_path=bert-base-uncased 5747
+0.3 tensorcontext 64 resnet 2
+{"pair_f1": 0.5746887966804979, "pair_p": 0.6548463356973995, "pair_r": 0.512014787430684}
+
