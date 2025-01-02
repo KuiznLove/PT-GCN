@@ -48,3 +48,26 @@ class GAT(torch.nn.Module):
 
         h = h + h_left + h_right + h_up + h_down
         return h
+
+
+class HierarchicalGAT(torch.nn.Module):
+    def __init__(self, in_channel=768, out_channel=256):
+        super(HierarchicalGAT, self).__init__()
+        # 句法层
+        self.syntax_gat = GAT(in_channel, out_channel)
+        # 语义层
+        self.semantic_gat = GAT(out_channel, out_channel)
+        # 融合层
+        self.fusion = torch.nn.Linear(out_channel * 2, out_channel)
+
+    def forward(self, table, dep_matrix):
+        # 句法依存处理
+        syntax_feat = self.syntax_gat(table, dep_matrix)
+
+        # 语义处理
+        semantic_feat = self.semantic_gat(table)
+
+        # 特征融合
+        fused_feat = torch.cat([syntax_feat, semantic_feat], dim=-1)
+        output = self.fusion(fused_feat)
+        return output

@@ -53,10 +53,10 @@ class BDTFModel(BertPreTrainedModel):
         seq = seq * (attention_mask.unsqueeze(-1)) #[1, 59, 768]
 
         table = self.table_encoder(seq) #[1, 59, 59, 768]
-        table1 = self.gcn1(table, as1, ts1, word_pair_deprel)
-        table2 = self.gcn2(table, as2, ts2, word_pair_deprel)
-        table3 = self.gcn3(table, as3, ts3, word_pair_deprel)
-        table1 = torch.cat([table1,table2,table3], dim=-1)
+        table1 = self.gcn1(table, as1, ts1, word_pair_deprel) #[1, seq, seq, 256]
+        table2 = self.gcn2(table, as2, ts2, word_pair_deprel) #[1, seq, seq, 256]
+        table3 = self.gcn3(table, as3, ts3, word_pair_deprel) #[1, seq, seq, 256]
+        table1 = torch.cat([table1,table2,table3], dim=-1) #[1, seq, seq, 768]
 
         output = self.inference(table1, attention_mask, table_labels_S, table_labels_E)
         output['ids'] = ids

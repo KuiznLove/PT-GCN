@@ -61,7 +61,7 @@ CUDA_VISIBLE_DEVICES=${CUDA_IDS} python3 aste_train_prompt.py \
   --gradient_clip_val ${gradient_clip_val} \
   --weight_decay ${weight_decay} \
   --max_seq_length -1 \
-  --max_epochs 15 \
+  --max_epochs 20 \
   --cuda_ids ${CUDA_IDS} \
   --do_train \
   --table_encoder ${table_encoder} \

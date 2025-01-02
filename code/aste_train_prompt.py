@@ -2,15 +2,13 @@ import os
 import torch
 import logging
 import argparse
-import random
-import numpy as np
 
 import pytorch_lightning as pl
 from prepare_vocab import VocabHelp
 
 pl.seed_everything(42)
 
-from transformers import AutoTokenizer, AutoConfig
+from transformers import AutoConfig
 from transformers.optimization import AdamW
 from pytorch_lightning.utilities import rank_zero_info
 from transformers import (
@@ -50,6 +48,8 @@ class ASTE(pl.LightningModule):
         self.config.span_pruning = self.hparams.span_pruning
         self.config.seq2mat = self.hparams.seq2mat
         self.config.num_d = self.hparams.num_d
+
+        self.seed = self.hparams.seed
 
         self.model = BDTFModel.from_pretrained(self.hparams.model_name_or_path, config=self.config)
 
@@ -276,5 +276,10 @@ def test():
     trainer.test(model, datamodule=data_module)
 
 
+
+def run_training():
+    print('run_training......')
+
 if __name__ == '__main__':
     main()
+    # run_training()

@@ -4,6 +4,10 @@ from .seq2mat import *
 from .tgcn.GAT import GAT
 from .tgcn.SyntaxGAT import SyntaxGAT
 from .tgcn.SyntaxGAT2 import SyntaxGAT2
+from .tgcn.SyntaxAttentionGAT import SyntaxAttentionGAT
+from .tgcn.SyntaxAttentionGAT2 import SyntaxAttentionGAT2
+from .tgcn.GAT import HierarchicalGAT
+from .tgcn.SyntaxMultiAttentionGAT import SyntaxMultiAttentionGAT
 
 
 class TableEncoder(nn.Module):
@@ -30,8 +34,12 @@ class Ptgcn(nn.Module):
     def __init__(self, config):
         super().__init__()
 
-        # self.gat = GAT()
-        self.gat = SyntaxGAT2()
+        self.gat = GAT()
+        # self.gat = SyntaxGAT2()
+        # self.gat = SyntaxAttentionGAT()
+        # self.gat = SyntaxAttentionGAT2()
+        # self.gat = SyntaxMultiAttentionGAT()
+        # self.gat = HierarchicalGAT()
 
     def forward(self, table, a_s, o_s, adj_matrix):
         table = self.gat(table, a_s, o_s, adj_matrix)

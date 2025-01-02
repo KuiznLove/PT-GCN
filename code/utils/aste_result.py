@@ -1,6 +1,7 @@
 import os
 import time
 from . import append_json, save_json, mkdir_if_not_exist
+from .QQMailSender import QQMailSender
 
 polarity_map = {
     'NEG': 0,
@@ -160,5 +161,8 @@ class Result:
         append_json(performance_file_name, f'{args.span_pruning} {args.seq2mat} {args.num_d} {args.table_encoder} {args.num_table_layers}')
         append_json(performance_file_name, detailed_metrics)
         append_json(performance_file_name, '')
+
+        sender = QQMailSender()
+        sender.send_mail(args.seed, detailed_metrics['pair_f1'], detailed_metrics['pair_p'], detailed_metrics['pair_r'])
 
 

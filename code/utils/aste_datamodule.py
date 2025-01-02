@@ -163,7 +163,7 @@ class DataCollatorForASTE:
                 token_end = token_start + len(self.tokenizer.encode(w, add_special_tokens=False))
                 token_range.append([token_start, token_end - 1])
                 token_start = token_end
-            word_pair_position = torch.zeros(102, 102).long()
+            word_pair_position = torch.zeros(104, 104).long()
             for i in range(len(tokens)):
                 start, end = token_range[i][0], token_range[i][1]
                 for j in range(len(tokens)):
@@ -175,7 +175,7 @@ class DataCollatorForASTE:
 
             """2. generate deprel index of the word pair"""
             '''word_pair_deprel：为词对生成依赖关系标签。'''
-            word_pair_deprel = torch.zeros(102, 102).long()
+            word_pair_deprel = torch.zeros(104, 104).long()
             for i in range(len(tokens)):
                 start = token_range[i][0]
                 end = token_range[i][1]
@@ -188,7 +188,7 @@ class DataCollatorForASTE:
 
             """3. generate POS tag index of the word pair"""
             '''word_pair_pos：为词对生成词性标注索引。'''
-            word_pair_pos = torch.zeros(102, 102).long()
+            word_pair_pos = torch.zeros(104, 104).long()
             for i in range(len(tokens)):
                 start, end = token_range[i][0], token_range[i][1]
                 for j in range(len(tokens)):
@@ -200,7 +200,7 @@ class DataCollatorForASTE:
 
             """4. generate synpost index of the word pair"""
             '''word_pair_synpost：通过句法位置生成词对的语法层级关系。'''
-            word_pair_synpost = torch.zeros(102, 102).long()
+            word_pair_synpost = torch.zeros(104, 104).long()
             tmp = [[0] * len(tokens) for _ in range(len(tokens))]
             for i in range(len(tokens)):
                 j = head[i]
