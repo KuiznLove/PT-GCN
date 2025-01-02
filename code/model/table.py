@@ -34,14 +34,13 @@ class Ptgcn(nn.Module):
     def __init__(self, config):
         super().__init__()
 
-        self.gat = GAT()
+        # self.gat = GAT()
         # self.gat = SyntaxGAT2()
         # self.gat = SyntaxAttentionGAT()
-        # self.gat = SyntaxAttentionGAT2()
+        self.gat = SyntaxAttentionGAT2()
         # self.gat = SyntaxMultiAttentionGAT()
         # self.gat = HierarchicalGAT()
 
     def forward(self, table, a_s, o_s, adj_matrix):
         table = self.gat(table, a_s, o_s, adj_matrix)
-
         return table
